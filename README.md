@@ -19,7 +19,7 @@ You can check the front at: [TechEvents-Front](https://github.com/mihaelagheorgh
 
 ## Initial EER Diagram
 
-![event list view](./readmeImg/eer.png.jpg)
+![eer diagram](./readmeImg/eer.png)
 
 ## Available React Scripts
 
