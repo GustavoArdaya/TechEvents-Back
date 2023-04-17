@@ -12,13 +12,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "_users")
 public class User implements UserDetails {
 
   @Id
@@ -35,6 +36,9 @@ public class User implements UserDetails {
 
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
+
+  @ManyToMany(mappedBy = "participants")
+  Set<Event> signedInEvents;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
