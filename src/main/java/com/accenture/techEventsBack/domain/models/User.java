@@ -18,14 +18,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "_users")
 public class User implements UserDetails {
 
   @Id
   @GeneratedValue
   private Long id;
+  private String username;
+  //private String photoPath; TODO
   private String firstname;
-  private String lastname;
+  private String firstLastname;
+  private String secondLastname;
   private String email;
   private String password;
 
