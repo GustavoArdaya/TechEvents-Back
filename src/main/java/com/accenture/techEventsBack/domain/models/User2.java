@@ -1,14 +1,8 @@
 package com.accenture.techEventsBack.domain.models;
 
-
 import com.accenture.techEventsBack.security.token.Token;
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,13 +11,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "_users")
-public class User implements UserDetails {
+public class User2 implements UserDetails {
 
   @Id
   @GeneratedValue
@@ -34,22 +32,16 @@ public class User implements UserDetails {
   private String password;
 
   @Enumerated(EnumType.STRING)
-  private Role role;
+  @Builder.Default
+  private Role role=Role.USER;
+
 
   @OneToMany(mappedBy = "user")
   @JsonIgnore
   private List<Token> tokens;
 
-  @ManyToMany
-  @JoinTable(name = "user_events",
-          joinColumns = {
-                  @JoinColumn(name = "user_id", referencedColumnName = "id")
-          },
-          inverseJoinColumns = {
-                  @JoinColumn(name = "event_id", referencedColumnName = "id")
-          })
-  @JsonManagedReference
-  private Set<Event> signedInEvents;
+  @ManyToMany(mappedBy = "participants")
+  Set<Event> signedInEvents;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -84,8 +76,5 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
-  }
-  public Set<Event> getSignedInEvents() {
-    return signedInEvents;
   }
 }

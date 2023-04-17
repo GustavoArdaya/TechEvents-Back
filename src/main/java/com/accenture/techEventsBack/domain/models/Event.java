@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -31,9 +32,12 @@ public class Event {
     private Boolean isHighlighted;
 
     @ManyToMany
-    @JoinTable(
-            name = "users_events",
-            joinColumns = @JoinColumn(name = "_events.id"),
-            inverseJoinColumns = @JoinColumn(name = "_users.id"))
+    @JoinTable(name = "user_events",
+            joinColumns = {
+                    @JoinColumn(name = "event_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)})
     Set<User>participants;
 }

@@ -1,13 +1,14 @@
 INSERT
 INTO
   _events
-  (title, description, _date, _time, max_participants)
+  (id,title, description, _date, _time, max_participants)
 VALUES
-  ('', '', current_date, current_time, 0);
+  (1,'mc many to many', '', current_date, current_time, 0);
 
 INSERT
 INTO
-  users_events
+  user_events
+  (event_id, user_id)
 VALUES
   (1,1);
 

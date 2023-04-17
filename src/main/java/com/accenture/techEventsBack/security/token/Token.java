@@ -1,6 +1,7 @@
 package com.accenture.techEventsBack.security.token;
 
 import com.accenture.techEventsBack.domain.models.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +29,7 @@ public class Token {
   public boolean revoked;
 
   public boolean expired;
-
+  
   @ManyToOne
   @JoinColumn(name = "user_id")
   public User user;
