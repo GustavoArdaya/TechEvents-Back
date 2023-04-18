@@ -7,10 +7,7 @@ import com.accenture.techEventsBack.domain.models.User;
 import com.accenture.techEventsBack.infrastructure.repositories.EventRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class EventService {
@@ -26,10 +23,10 @@ public class EventService {
         List<EventResponseEvent> dtoResponse=new ArrayList<>();
         for (Event event : eventsList) {
 
-
+            Set<User> participants=eventRepository.findAllParticipants(event.getId());
 
             Set<EventResponseUser> dtoUserSet=new HashSet<>();
-            for(User user:event.getParticipants()){
+            for(User user:participants){
                 EventResponseUser dtoUser=EventResponseUser.builder()
                         .username(user.getUsername())
                         .email(user.getEmail())
@@ -49,5 +46,30 @@ public class EventService {
         }
 
         return dtoResponse;
+    }
+
+    public EventResponseEvent getEventById(Long id) {
+        Optional<Event> optionalEvent=eventRepository.findById(id);
+        if (optionalEvent.isEmpty())throw new RuntimeException("Event not found");
+        Event e= optionalEvent.get();
+
+        Set<User> participants=eventRepository.findAllParticipants(e.getId());
+        Set<EventResponseUser> dtoUserSet=new HashSet<>();
+        for(User user:participants){
+            EventResponseUser dtoUser=EventResponseUser.builder()
+                    .username(user.getUsername())
+                    .email(user.getEmail())
+                    .build();
+            dtoUserSet.add(dtoUser);
+        }
+        return EventResponseEvent.builder()
+                .title(e.getTitle())
+                .description(e.getDescription())
+                ._date(e.get_date())
+                ._time(e.get_time())
+                .isHighlighted(e.getIsHighlighted())
+                .max_participants(e.getMax_participants())
+                .participants(dtoUserSet)
+                .build();
     }
 }
