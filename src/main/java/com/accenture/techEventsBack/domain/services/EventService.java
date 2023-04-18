@@ -1,5 +1,6 @@
 package com.accenture.techEventsBack.domain.services;
 
+import com.accenture.techEventsBack.domain.exceptions.UserAlreadySignedInException;
 import com.accenture.techEventsBack.domain.models.Event;
 import com.accenture.techEventsBack.domain.models.EventResponseEvent;
 import com.accenture.techEventsBack.domain.models.EventResponseUser;
@@ -22,10 +23,14 @@ public class EventService {
         this.userRepository = userRepository;
     }
 
-    public EventResponseEvent constructDTOEventResponseFromEvent(Event event) {
+    public User getAuthUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedUserEmail=authentication.getName();
+        return userRepository.findByEmail(loggedUserEmail).get();
+    }
 
+    public Set<EventResponseUser> constructSetOfDTOUsersOfAnEvent(Event event) {
         Set<User> participants=eventRepository.findAllParticipants(event.getId());
-
         Set<EventResponseUser> dtoUserSet=new HashSet<>();
         for(User user:participants){
             EventResponseUser dtoUser=EventResponseUser.builder()
@@ -34,6 +39,13 @@ public class EventService {
                     .build();
             dtoUserSet.add(dtoUser);
         }
+        return dtoUserSet;
+    }
+
+    public EventResponseEvent constructDTOEventResponseFromEvent(Event event) {
+
+        Set<EventResponseUser> dtoUserSet=constructSetOfDTOUsersOfAnEvent(event);
+
         return EventResponseEvent.builder()
                 .title(event.getTitle())
                 .description(event.getDescription())
@@ -72,14 +84,15 @@ public class EventService {
 
     public EventResponseEvent signUserUpForEvent(Long id) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String loggedUserEmail=authentication.getName();
-        User loggedUser=userRepository.findByEmail(loggedUserEmail).get();
+        User loggedUser=getAuthUser();
+
         Optional<Event> optionalEvent=eventRepository.findById(id);
         if(optionalEvent.isEmpty()) throw new RuntimeException("Event not found");
+
         Event event= optionalEvent.get();
+        if(loggedUser.getSignedInEvents().contains(event))throw new UserAlreadySignedInException("User is already signed in");
+
         loggedUser.getSignedInEvents().add(event);
-//        event.setParticipants(new HashSet<>(event.getParticipants()));
         userRepository.save(loggedUser);
 
         return constructDTOEventResponseFromEvent(event);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.Mapping;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -34,4 +35,17 @@ public class Event {
 
     @ManyToMany(mappedBy = "signedInEvents")
     Set<User>participants;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return id.equals(event.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
