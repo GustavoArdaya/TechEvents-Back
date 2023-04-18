@@ -28,8 +28,11 @@ public class User implements UserDetails {
   @Id
   @GeneratedValue
   private Long id;
+  private String username;
+  //private String photoPath; TODO
   private String firstname;
-  private String lastname;
+  private String firstLastname;
+  private String secondLastname;
   private String email;
   private String password;
 
@@ -48,7 +51,6 @@ public class User implements UserDetails {
           inverseJoinColumns = {
                   @JoinColumn(name = "event_id", referencedColumnName = "id")
           })
-  @JsonManagedReference
   private Set<Event> signedInEvents;
 
   @Override
@@ -84,8 +86,5 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
-  }
-  public Set<Event> getSignedInEvents() {
-    return signedInEvents;
   }
 }
