@@ -4,6 +4,7 @@ package com.accenture.techEventsBack.apiService.controllers;
 import com.accenture.techEventsBack.domain.models.EventResponseEvent;
 import com.accenture.techEventsBack.domain.services.EventService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +21,13 @@ public class EventController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('USER') || hasAuthority('ADMIN')")
     public ResponseEntity<List<EventResponseEvent>> getAllEvents(){
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER') || hasAuthority('ADMIN')")
     public ResponseEntity<EventResponseEvent> getEventById(@PathVariable Long id){
         return ResponseEntity.ok(eventService.getEventById(id));
     }
