@@ -28,7 +28,9 @@ public class User implements UserDetails {
   @Id
   @GeneratedValue
   private Long id;
+  @JsonIgnore
   private String username;
+  private String loginName;
   //private String photoPath; TODO
   private String firstname;
   private String firstLastname;

@@ -34,7 +34,7 @@ public class EventService {
         Set<EventResponseUser> dtoUserSet=new HashSet<>();
         for(User user:participants){
             EventResponseUser dtoUser=EventResponseUser.builder()
-                    .username(user.getUsername())
+                    .loginName(user.getLoginName())
                     .email(user.getEmail())
                     .build();
             dtoUserSet.add(dtoUser);
