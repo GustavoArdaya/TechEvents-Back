@@ -1,5 +1,6 @@
 package com.accenture.techEventsBack.security.config;
 
+import com.accenture.techEventsBack.domain.exceptions.BadJWTTokenException;
 import com.accenture.techEventsBack.security.token.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -39,7 +40,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
     jwt = authHeader.substring(7);
-    userEmail = jwtService.extractUsername(jwt);
+
+    try {
+      userEmail = jwtService.extractUsername(jwt);
+    }catch(Exception e) {
+      throw new BadJWTTokenException("JWT is not valid");
+    }
+
     if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
       var isTokenValid = tokenRepository.findByToken(jwt)

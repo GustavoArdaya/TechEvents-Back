@@ -1,5 +1,6 @@
 package com.accenture.techEventsBack.domain.services;
 
+import com.accenture.techEventsBack.domain.exceptions.NotFoundException;
 import com.accenture.techEventsBack.domain.exceptions.UserAlreadySignedInException;
 import com.accenture.techEventsBack.domain.models.Event;
 import com.accenture.techEventsBack.domain.models.EventResponseEvent;
@@ -71,7 +72,7 @@ public class EventService {
 
     public EventResponseEvent getEventById(Long id) {
         Optional<Event> optionalEvent=eventRepository.findById(id);
-        if (optionalEvent.isEmpty())throw new RuntimeException("Event not found");
+        if (optionalEvent.isEmpty())throw new NotFoundException("Event not found");
         Event e= optionalEvent.get();
 
         return constructDTOEventResponseFromEvent(e);
@@ -87,7 +88,7 @@ public class EventService {
         User loggedUser=getAuthUser();
 
         Optional<Event> optionalEvent=eventRepository.findById(id);
-        if(optionalEvent.isEmpty()) throw new RuntimeException("Event not found");
+        if(optionalEvent.isEmpty()) throw new NotFoundException("Event not found");
 
         Event event= optionalEvent.get();
         if(loggedUser.getSignedInEvents().contains(event))throw new UserAlreadySignedInException("User is already signed in");

@@ -1,6 +1,7 @@
 package com.accenture.techEventsBack.security.auth;
 
 
+import com.accenture.techEventsBack.domain.exceptions.BadJWTTokenException;
 import com.accenture.techEventsBack.domain.models.Role;
 import com.accenture.techEventsBack.domain.models.User;
 import com.accenture.techEventsBack.infrastructure.repositories.UserRepository;
@@ -39,13 +40,14 @@ public class AuthenticationService {
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
         .token(jwtToken)
-            .loginName(user.getLoginName())
-            .email(user.getEmail())
-            .role(user.getRole())
+        .loginName(user.getLoginName())
+        .email(user.getEmail())
+        .role(user.getRole())
         .build();
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             request.getEmail(),
@@ -59,8 +61,9 @@ public class AuthenticationService {
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
         .token(jwtToken)
-            .email(user.getEmail())
-            .role(user.getRole())
+        .loginName(user.getLoginName())
+        .email(user.getEmail())
+        .role(user.getRole())
         .build();
   }
 
