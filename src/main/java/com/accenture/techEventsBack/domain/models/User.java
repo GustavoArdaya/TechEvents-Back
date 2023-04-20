@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -53,7 +54,7 @@ public class User implements UserDetails {
           inverseJoinColumns = {
                   @JoinColumn(name = "event_id", referencedColumnName = "id")
           })
-  private Set<Event> signedInEvents;
+  private Set<Event> signedInEvents=new HashSet<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

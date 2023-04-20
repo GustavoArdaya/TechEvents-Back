@@ -34,7 +34,7 @@ public class Event {
     private Boolean isHighlighted;
 
     @ManyToMany(mappedBy = "signedInEvents")
-    Set<User>participants;
+    Set<User>participants=new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
