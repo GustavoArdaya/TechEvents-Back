@@ -8,6 +8,7 @@ VALUES
   (3,'mc many to many3', '', current_date, current_time, 0,false),
   (4,'mc many to many4', '', current_date, current_time, 0,false);
 
+
 INSERT
 INTO
   user_events
