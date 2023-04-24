@@ -3,8 +3,8 @@ package com.accenture.techEventsBack.domain.services;
 import com.accenture.techEventsBack.domain.exceptions.NotFoundException;
 import com.accenture.techEventsBack.domain.exceptions.UserAlreadySignedInException;
 import com.accenture.techEventsBack.domain.models.Event;
-import com.accenture.techEventsBack.domain.models.EventResponseEvent;
-import com.accenture.techEventsBack.domain.models.EventResponseUser;
+import com.accenture.techEventsBack.domain.dtos.EventResponseEvent;
+import com.accenture.techEventsBack.domain.dtos.EventResponseUser;
 import com.accenture.techEventsBack.domain.models.User;
 import com.accenture.techEventsBack.infrastructure.repositories.EventRepository;
 import com.accenture.techEventsBack.infrastructure.repositories.UserRepository;
@@ -30,9 +30,9 @@ public class EventService {
         return userRepository.findByEmail(loggedUserEmail).get();
     }
 
-    public Set<EventResponseUser> constructSetOfDTOUsersOfAnEvent(Event event) {
-        Set<User> participants=eventRepository.findAllParticipants(event.getId());
-        Set<EventResponseUser> dtoUserSet=new HashSet<>();
+    public List<EventResponseUser> constructSetOfDTOUsersOfAnEvent(Event event) {
+        List<User> participants=eventRepository.findAllParticipants(event.getId());
+        List<EventResponseUser> dtoUserSet=new ArrayList<>();
         for(User user:participants){
             EventResponseUser dtoUser=EventResponseUser.builder()
                     .loginName(user.getLoginName())
@@ -45,7 +45,7 @@ public class EventService {
 
     public EventResponseEvent constructDTOEventResponseFromEvent(Event event) {
 
-        Set<EventResponseUser> dtoUserSet=constructSetOfDTOUsersOfAnEvent(event);
+        List<EventResponseUser> dtoUserSet=constructSetOfDTOUsersOfAnEvent(event);
 
         return EventResponseEvent.builder()
                 .title(event.getTitle())
@@ -67,6 +67,8 @@ public class EventService {
 
             dtoResponse.add(constructDTOEventResponseFromEvent(event));
         }
+
+        dtoResponse.sort(Comparator.comparing(EventResponseEvent::get_date).reversed());
         return dtoResponse;
     }
 
@@ -78,7 +80,7 @@ public class EventService {
         return constructDTOEventResponseFromEvent(e);
     }
 
-    public Set<EventResponseUser> getUsersSignedInEventById(Long id) {
+    public List<EventResponseUser> getUsersSignedInEventById(Long id) {
         EventResponseEvent event= getEventById(id);
         return event.getParticipants();
     }
