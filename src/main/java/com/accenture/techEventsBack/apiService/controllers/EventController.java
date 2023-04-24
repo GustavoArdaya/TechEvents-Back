@@ -1,6 +1,8 @@
 package com.accenture.techEventsBack.apiService.controllers;
 
 
+import com.accenture.techEventsBack.domain.dtos.EventRequestEvent;
+import com.accenture.techEventsBack.domain.models.Event;
 import com.accenture.techEventsBack.domain.models.EventResponseEvent;
 import com.accenture.techEventsBack.domain.models.EventResponseUser;
 import com.accenture.techEventsBack.domain.services.EventService;
@@ -44,5 +46,11 @@ public class EventController {
     @PreAuthorize("hasAuthority('USER') || hasAuthority('ADMIN')")
     public ResponseEntity<EventResponseEvent> signUserUpForEvent(@PathVariable Long id){
         return ResponseEntity.ok(eventService.signUserUpForEvent(id));
+    }
+
+    @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<EventResponseEvent> createNewEvent(@RequestBody EventRequestEvent newEvent) {
+        return ResponseEntity.ok(eventService.createNewEvent(newEvent));
     }
 }

@@ -1,5 +1,6 @@
 package com.accenture.techEventsBack.domain.services;
 
+import com.accenture.techEventsBack.domain.dtos.EventRequestEvent;
 import com.accenture.techEventsBack.domain.exceptions.NotFoundException;
 import com.accenture.techEventsBack.domain.exceptions.UserAlreadySignedInException;
 import com.accenture.techEventsBack.domain.models.Event;
@@ -97,5 +98,23 @@ public class EventService {
         userRepository.save(loggedUser);
 
         return constructDTOEventResponseFromEvent(event);
+    }
+
+    public EventResponseEvent createNewEvent(EventRequestEvent newEvent) {
+        Event event = constructEventFromEventRequestEvent(newEvent);
+        event = this.eventRepository.save(event);
+        return constructDTOEventResponseFromEvent(event);
+    }
+
+    public Event constructEventFromEventRequestEvent(EventRequestEvent request) {
+        Event newEvent = Event.builder()
+                .title(request.getTitle())
+                .description(request.getDescription())
+                ._date(request.get_date())
+                ._time(request.get_time())
+                .max_participants(request.getMax_participants())
+                .isHighlighted(request.getIsHighlighted())
+                .build();
+        return newEvent;
     }
 }
