@@ -139,5 +139,6 @@ public class EventService {
                 .isHighlighted(request.getIsHighlighted())
                 .build();
         return newEvent;
+
     }
 }
