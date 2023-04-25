@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @Service
@@ -139,6 +141,38 @@ public class EventService {
                 .isHighlighted(request.getIsHighlighted())
                 .build();
         return newEvent;
+
+    }
+
+    public EventResponseEvent updateEvent(Long id,EventRequestEvent updatedData) {
+        Optional<Event> optionalEvent=eventRepository.findById(id);
+        if(optionalEvent.isEmpty()) throw new NotFoundException("Event not found");
+
+        Event event= optionalEvent.get();
+
+        String updatedTitle=updatedData.getTitle();
+        event.setTitle(updatedTitle != null && !updatedTitle.trim().isEmpty()?updatedTitle:event.getTitle());
+
+        String updatedDescription=updatedData.getDescription();
+        event.setDescription(updatedDescription != null && !updatedDescription.trim().isEmpty()?updatedDescription:event.getDescription());
+
+        Integer updatedMax_participants=updatedData.getMax_participants();
+        event.setMax_participants(updatedMax_participants!=null&& updatedMax_participants>=0L?updatedMax_participants:event.getMax_participants());
+
+        LocalTime updatedTime=updatedData.get_time();
+        event.set_time(updatedTime != null?updatedTime:event.get_time());
+
+        LocalDate updatedDate=updatedData.get_date();
+        event.set_date(updatedDate != null?updatedDate:event.get_date());
+
+        Boolean updatedIsHighlighted=updatedData.getIsHighlighted();
+        event.setIsHighlighted(updatedIsHighlighted!=null?updatedIsHighlighted:event.getIsHighlighted());
+
+        eventRepository.save(event);
+
+
+
+        return constructDTOEventResponseFromEvent(event);
 
     }
 }

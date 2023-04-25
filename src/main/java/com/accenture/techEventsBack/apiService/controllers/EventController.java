@@ -60,4 +60,10 @@ public class EventController {
         return ResponseEntity.ok(eventService.createNewEvent(newEvent));
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<EventResponseEvent> updateEvent(@PathVariable Long id,@RequestBody EventRequestEvent updatedData) {
+        return ResponseEntity.ok(eventService.updateEvent(id,updatedData));
+    }
+
 }
