@@ -47,6 +47,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.signUserUpForEvent(id));
     }
 
+
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<EventResponseEvent> createNewEvent(@RequestBody EventRequestEvent newEvent) {
