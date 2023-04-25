@@ -1,8 +1,9 @@
-package com.accenture.techEventsBack.domain.models;
+package com.accenture.techEventsBack.domain.dtos;
 
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -11,5 +12,5 @@ public class UserResponseUser {
     private String loginName;
     private String email;
     //TODO image
-    private Set<UserResponseEvent> signedInEvents;
+    private List<UserResponseEvent> signedInEvents;
 }

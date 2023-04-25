@@ -1,11 +1,11 @@
-package com.accenture.techEventsBack.domain.models;
+package com.accenture.techEventsBack.domain.dtos;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -18,5 +18,5 @@ public class EventResponseEvent {
     private LocalTime _time;
     private Integer max_participants;
     private Boolean isHighlighted;
-    Set<EventResponseUser> participants;
+    List<EventResponseUser> participants;
 }

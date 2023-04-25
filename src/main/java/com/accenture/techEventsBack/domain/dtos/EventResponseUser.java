@@ -1,4 +1,4 @@
-package com.accenture.techEventsBack.domain.models;
+package com.accenture.techEventsBack.domain.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
