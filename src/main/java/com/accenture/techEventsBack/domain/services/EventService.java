@@ -98,4 +98,23 @@ public class EventService {
 
         return constructDTOEventResponseFromEvent(event);
     }
+
+    public EventResponseEvent deleteEventById(Long id) {
+        // buscar event por id y si no existe que lanze el error
+
+        Optional<Event> optionalEvent=eventRepository.findById(id);
+        if(optionalEvent.isEmpty()) throw new NotFoundException("Event not found");
+
+        //si se encuntra el evento en concreto se borra del repositorio
+        Event event= optionalEvent.get();
+        eventRepository.delete(event);
+
+        //si se ha borrado  devolver el evento
+
+        return  constructDTOEventResponseFromEvent (event);
+
+
+    }
+
+
 }

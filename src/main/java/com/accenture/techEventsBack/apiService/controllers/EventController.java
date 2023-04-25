@@ -45,4 +45,11 @@ public class EventController {
     public ResponseEntity<EventResponseEvent> signUserUpForEvent(@PathVariable Long id){
         return ResponseEntity.ok(eventService.signUserUpForEvent(id));
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<EventResponseEvent>deleteEventById(@PathVariable Long id){
+        return ResponseEntity.ok(eventService.deleteEventById(id));
+    }
+
 }
