@@ -1,6 +1,7 @@
 package com.accenture.techEventsBack.domain.services;
 
 import com.accenture.techEventsBack.domain.dtos.EventRequestEvent;
+import com.accenture.techEventsBack.domain.exceptions.EventAlreadyFullException;
 import com.accenture.techEventsBack.domain.exceptions.NotFoundException;
 import com.accenture.techEventsBack.domain.exceptions.UserAlreadySignedInException;
 import com.accenture.techEventsBack.domain.models.Event;
@@ -94,6 +95,7 @@ public class EventService {
         if(optionalEvent.isEmpty()) throw new NotFoundException("Event not found");
 
         Event event= optionalEvent.get();
+        if(event.getParticipants().size()==event.getMax_participants())throw new EventAlreadyFullException("Event is already full");
         if(loggedUser.getSignedInEvents().contains(event))throw new UserAlreadySignedInException("User is already signed in");
 
         loggedUser.getSignedInEvents().add(event);
