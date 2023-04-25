@@ -107,14 +107,17 @@ public class EventService {
 
         //si se encuntra el evento en concreto se borra del repositorio
         Event event= optionalEvent.get();
+        //antes de borrar el evento tenemos que desapuntar a los usuarios
+        for (User user : event.getParticipants()) {
+            user.getSignedInEvents().remove(event);
+            userRepository.save(user);
+        }
         eventRepository.delete(event);
 
         //si se ha borrado  devolver el evento
-
         return  constructDTOEventResponseFromEvent (event);
-
-
     }
+
 
 
 }
