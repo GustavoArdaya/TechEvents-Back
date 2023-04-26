@@ -39,6 +39,7 @@ public class EventService {
         List<EventResponseUser> dtoUserSet=new ArrayList<>();
         for(User user:participants){
             EventResponseUser dtoUser=EventResponseUser.builder()
+                    .id(user.getId())
                     .loginName(user.getLoginName())
                     .email(user.getEmail())
                     .build();
@@ -52,6 +53,7 @@ public class EventService {
         List<EventResponseUser> dtoUserSet=constructSetOfDTOUsersOfAnEvent(event);
 
         return EventResponseEvent.builder()
+                .id(event.getId())
                 .title(event.getTitle())
                 .description(event.getDescription())
                 ._date(event.get_date())
@@ -143,7 +145,6 @@ public class EventService {
                 .isHighlighted(request.getIsHighlighted())
                 .build();
         return newEvent;
-
     }
 
     public EventResponseEvent updateEvent(Long id,EventRequestEvent updatedData) {

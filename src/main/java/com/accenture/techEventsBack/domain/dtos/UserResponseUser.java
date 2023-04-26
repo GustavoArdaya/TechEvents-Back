@@ -9,6 +9,7 @@ import java.util.Set;
 @Data
 @Builder
 public class UserResponseUser {
+    private Long id;
     private String loginName;
     private String email;
     //TODO image

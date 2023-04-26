@@ -9,6 +9,7 @@ import java.time.LocalTime;
 @Data
 @Builder
 public class UserResponseEvent {
+    private Long id;
     private String title;
     private String description;
     private LocalDate _date;

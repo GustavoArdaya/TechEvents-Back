@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventResponseUser {
+    private Long id;
     private String loginName;
     private String email;
     //TODO image

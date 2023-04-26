@@ -11,6 +11,7 @@ import java.util.Set;
 @Data
 @Builder
 public class EventResponseEvent {
+    private Long id;
     private String title;
     private String description;
     //TODO image
