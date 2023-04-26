@@ -17,5 +17,4 @@ public class EventRequestEvent {
     private LocalTime _time;
     private Integer max_participants;
     private Boolean isHighlighted;
-
 }
