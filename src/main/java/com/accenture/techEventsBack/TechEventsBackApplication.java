@@ -8,5 +8,4 @@ public class TechEventsBackApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TechEventsBackApplication.class, args);
 	}
-
 }
