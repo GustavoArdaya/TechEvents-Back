@@ -4,6 +4,7 @@ import com.accenture.techEventsBack.domain.dtos.EventResponseEvent;
 import com.accenture.techEventsBack.domain.dtos.EventResponseUser;
 import com.accenture.techEventsBack.domain.dtos.UserResponseEvent;
 import com.accenture.techEventsBack.domain.dtos.UserResponseUser;
+import com.accenture.techEventsBack.domain.exceptions.NotFoundException;
 import com.accenture.techEventsBack.domain.models.Event;
 import com.accenture.techEventsBack.domain.models.User;
 import com.accenture.techEventsBack.infrastructure.repositories.EventRepository;
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -27,8 +29,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User getUserById(long l) {
-        return userRepository.findById(l).get();
+    public UserResponseUser getUserById(long id) {
+        Optional<User> optionalUser= userRepository.findById(id);
+        if(optionalUser.isEmpty())throw new NotFoundException("User not found");
+
+        User user= optionalUser.get();
+        return constructDTOUserResponseFromUser(user);
     }
 
 
