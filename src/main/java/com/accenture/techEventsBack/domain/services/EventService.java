@@ -101,6 +101,7 @@ public class EventService {
         loggedUser.getSignedInEvents().add(event);
         userRepository.save(loggedUser);
 
+
         return constructDTOEventResponseFromEvent(event);
     }
 
