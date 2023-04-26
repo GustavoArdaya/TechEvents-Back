@@ -69,6 +69,7 @@ public class UserService {
                     .build();
             dtoEventList.add(dtoEvent);
         }
+
         return dtoEventList;
     }
 }
