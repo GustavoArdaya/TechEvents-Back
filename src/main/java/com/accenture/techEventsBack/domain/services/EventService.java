@@ -176,6 +176,5 @@ public class EventService {
 
 
         return constructDTOEventResponseFromEvent(event);
-
     }
 }
